@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	hr{
+		width: 350px;
+		margin-left: 0px;
+	}
+	h2{
+		margin-left: 80px;
+	}
+	button{
+		height: 30px;
+		width: 100px;
+		background-color: #00CC99;
+		border: solid 1px black;
+	}
+	div{
+		margin-top: 50px;
+		text-align: center;
+		border: solid 1px;
+		width: 1000px;
+		margin-left: 200px; 
+	}
+	td{
+		width: 140px;
+		height: 30px;
+	}
+	th{
+		height: 30px;
+	}
+	input{
+		width: 230px;
+		height: 25px;
+	}
+</style>	
+</head>
+<body>
+<div class="form-student" id="themsv"  style="background-color: #FFCCCC; width: 400px; margin-left: 450px; text-align: left; padding-left: 50px" >
+	<h2 >Quản lý học sinh</h2>
+	<p><b>Tên học sinh:&nbsp;&nbsp;&nbsp;&nbsp;<input id="name" name="name" type="text" maxlength="20"></b> </p>
+	<p><b>Điểm JS:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="diem_js" id="jsscore" type="text"> </b></p>
+	<p><b>Điểm Android:&nbsp;<input name="diem_an" id="androidscore" type="text"></b></p>
+	<p><b>Lớp: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="lop" id="class" type="text"></b></p>
+	<button type="submit" onclick="add()" style="margin-left: 130px"><b>THÊM HS</b></button><br>
+  	<br>
+</div>
+  <div >
+  	<table border= "1">
+    <tr>
+        <th colspan="7" style="background-color: #66CCCC;">DANH SÁCH SINH VIÊN</th>
+    </tr>
+
+    <tr>
+        <td><b>Tên</b></td>
+        <td><b>Điểm JS</b></td>
+        <td><b>Điểm Android</b></td>
+        <td><b>Điểm TB</b></td>
+        <td><b>Xếp loại</b></td>
+        <td><b>Lớp</b></td>
+        <td style="width: 100px;"></td>
+    </tr>
+    	<td id="ten"></td>
+    	<td id="diem_js"></td>
+    	<td id="diem_an"></td>
+    	<td id="diem_tb"></td>
+    	<td id="xloai"></td>
+    	<td id="lop"></td>
+    	<td id="delete"></td>
+    </tr>
+</table>
+</form>
+  </div>
+  
+<script type="text/javascript">
+	
+	function add(){
+
+		var g_name = document.getElementById('name').value;
+		var g_jsscore = document.getElementById('jsscore').value;
+		var g_androidscore = document.getElementById('androidscore').value;
+		var g_class = document.getElementById('class').value;
+		var diemtb  = (parseInt(g_jsscore) + parseInt(g_androidscore))/2;
+		var g_xeploai = "";
+		
+		if(g_name != "" && g_jsscore !="" && g_androidscore !="" && g_class !=""){
+			if (parseInt(g_jsscore) < 0 || parseInt(g_jsscore)>10 || parseInt(g_androidscore) < 0 || parseInt(g_androidscore)>10) {
+				alert("Điểm vừa nhập không hợp lệ!!! ");
+			}else{
+				if (diemtb > 7) {
+					if (diemtb > 8) {
+						g_xeploai = "Rất tốt"
+					}else g_xeploai = "Tốt"
+					
+				}else g_xeploai = "Bình thường"
+
+				localStorage.setItem("name", g_name);
+				localStorage.setItem("jsscore", g_jsscore);
+				localStorage.setItem("androidscore", g_androidscore);
+				localStorage.setItem("average", diemtb)
+				localStorage.setItem("class", g_class);
+				localStorage.setItem("xeploai", g_xeploai);
+
+			    get_item("name", "ten")
+			    get_item("jsscore", "diem_js")
+			    get_item("androidscore", "diem_an")
+			    get_item("average","diem_tb")
+			    get_item("class", "lop")
+			    get_item("xeploai", "xloai")
+			    btn_delete("delete")
+
+			    var x = document.createElement("TR");
+			    document.getElementById("delete").appendChild(btn_delete());
+				}
+		}if (g_name == "" ) {
+			alert("Tên chưa được nhập!!! ");
+		}
+	}
+
+	function get_item(value1, value2){
+		var x = document.createElement("TR");
+		var t = document.createTextNode(localStorage.getItem(value1));
+	    x.appendChild(t);
+	    document.getElementById(value2).appendChild(x);
+	}
+
+	function btn_delete(value) {
+		var x = document.createElement("TR");
+	    var x1 = document.createElement("INPUT");
+	    x1.setAttribute("type", "button");
+	    x1.setAttribute("value", "Delete");
+	    document.getElementById(value).appendChild(x);
+	    document.getElementById(value).appendChild(x1);
+	}
+	
+</script>
+</body>
+</html>
